@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block start %}
+
+<style>
+    body {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+    }
+
+    .register-card {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+        border-radius: 12px;
+        padding: 2rem;
+        border: 1px solid #334155;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .register-card h3 {
+        color: #f1f5f9;
+        font-weight: 600;
+    }
+
+    label {
+        color: #cbd5e1;
+        font-weight: 500;
+    }
+
+    .form-control {
+        background-color: #0f172a !important;
+        border: 1px solid #334155;
+        color: #e2e8f0 !important;
+    }
+
+    .form-control:focus {
+        background-color: #0f172a !important;
+        border-color: #38bdf8 !important;
+        box-shadow: none !important;
+        color: #fff !important;
+    }
+
+    .btn-register {
+        background-color: #38bdf8 !important;
+        color: #0f172a !important;
+        border: none !important;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn-register:hover {
+        background-color: #0ea5e9 !important;
+        color: #fff !important;
+    }
+
+    .login-link {
+        color: #38bdf8 !important;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        background-color: #b91c1c;
+        color: #fff;
+        border: none;
+    }
+</style>
+
+<div class="col-lg-4 mx-auto mt-5 mb-5">
+    <form class="register-card" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <h3 class="text-center mb-3">Register</h3>
+        <hr>
+
+        {% if messages %}
+            <div class="alert mt-3">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="mb-3 mt-3">
+            <label>First Name</label>
+            <input type="text" class="form-control" name="first_name">
+        </div>
+
+        <div class="mb-3">
+            <label>Last Name</label>
+            <input type="text" class="form-control" name="last_name">
+        </div>
+
+        <div class="mb-3">
+            <label>User Name</label>
+            <input type="text" class="form-control" name="username">
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+
+        <p class="mt-2">Already have an account?
+            <a href="/login/" class="login-link">Login</a>
+        </p>
+
+        <button type="submit" class="btn btn-register w-100 mt-3">Register</button>
+
+    </form>
+</div>
+
+{% endblock %}

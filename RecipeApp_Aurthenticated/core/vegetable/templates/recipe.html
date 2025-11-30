@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block start %}
+
+<style>
+    body {
+        background: #0f172a !important; /* Deep slate */
+        color: #cbd5e1 !important;
+    }
+
+    /* Dark Cards */
+    .card-dark {
+        background: #1e293b !important;
+        color: #e2e8f0 !important;
+        border: none !important;
+        border-radius: 12px !important;
+    }
+
+
+    /* INPUTS */
+    .form-control {
+        background: #0f172a !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #334155 !important;
+    }
+    .form-control:focus {
+        background: #0f172a !important;
+        color: #f1f5f9 !important;
+        border-color: #14b8a6 !important;
+        box-shadow: none !important;
+    }
+
+    /* BUTTONS */
+    .btn-accent {
+        background: #14b8a6 !important;
+        border: none !important;
+        color: white !important;
+    }
+    .btn-accent:hover {
+        background: #0d9488 !important;
+    }
+
+    .btn-warn {
+        background: #f59e0b !important;
+        border: none !important;
+        color: white !important;
+    }
+    .btn-warn:hover {
+        background: #d97706 !important;
+    }
+    /* table */
+    table.table-dark-custom,
+    table.table-dark-custom * {
+        background-color: #1e293b !important;
+        color: #cbd5e1 !important;
+        border-color: #334155 !important;
+    }
+
+    table.table-dark-custom thead tr th {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+        border-color: #334155 !important;
+    }
+
+    table.table-dark-custom tbody tr td {
+        background-color: #1e293b !important;
+    }
+
+    table.table-dark-custom tbody tr:hover td {
+        background-color: #334155 !important;
+    }
+
+    /* Fix img thumbnail white background */
+    .img-thumbnail {
+        background-color: #0f172a !important;
+        border: 1px solid #334155 !important;
+    }
+
+</style>
+
+
+<div class="container py-5">
+
+    <!-- ADD RECIPE FORM -->
+    <div class="col-lg-6 mx-auto mb-5">
+        <div class="card card-dark shadow">
+            <div class="card-body p-4">
+                <h3 class="text-center mb-3 fw-semibold">Add Recipe</h3>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Recipe Name</label>
+                        <input type="text" name="recipe_name" required class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="3" name="recipe_description" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Recipe Image</label>
+                        <input type="file" name="recipe_image" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-accent w-100 mt-2">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH FORM -->
+    <div class="col-lg-6 mx-auto mb-5">
+        <div class="card card-dark shadow">
+            <div class="card-body p-4">
+                <form>
+                    <label class="form-label fw-semibold">Search Food</label>
+                    <input type="text" name="search" class="form-control mb-3" placeholder="Search recipes…">
+                    <button type="submit" class="btn btn-accent w-100">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--RECIPES TABLE--> 
+    <div class="table-responsive mt-4">
+        <table class="table table-dark-custom align-middle shadow-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Recipe Name</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th style="width:160px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for data in recipe %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td class="fw-semibold">{{ data.recipe_name }}</td>
+                    <td>{{ data.recipe_description }}</td>
+                    <td>
+                        <img src="/media/{{ data.recipe_image }}" 
+                             class="img-thumbnail"
+                             style="height:120px; width:160px; object-fit:cover;">
+                    </td>
+                    <td>
+                        <a href="/delete_recipe/{{data.id}}/" class="btn btn-danger btn-sm mb-1 w-100">Delete</a>
+                        <a href="/update_recipe/{{data.id}}/" class="btn btn-warn btn-sm w-100">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

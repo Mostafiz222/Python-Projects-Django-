@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block start %}
+
+<style>
+    body, .container, .form-card, .card {
+        background-color: #0f172a !important; /* deep slate */
+        color: #e2e8f0 !important;
+    }
+
+    .form-card {
+        border-radius: 12px !important;
+        padding: 2rem !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+        border: 1px solid #334155 !important;
+    }
+
+    label {
+        font-weight: 600;
+        color: #cbd5e1 !important;
+    }
+
+    .form-control {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #334155 !important;
+    }
+
+    .form-control:focus {
+        background-color: #1e293b !important;
+        border-color: #14b8a6 !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 130px;
+    }
+
+    .btn-update {
+        background-color: #22c55e !important;
+        border: none !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        transition: 0.2s;
+    }
+
+    .btn-update:hover {
+        background-color: #16a34a !important;
+    }
+
+    hr {
+        border-color: #334155 !important;
+    }
+</style>
+
+<div class="container mt-5">
+    <form class="col-6 mx-auto form-card" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3 class="mb-3">Update Recipe</h3>
+        <hr>
+
+        <div class="mb-3">
+            <label>Recipe Name</label>
+            <input type="text" name="recipe_name" value="{{recipe.recipe_name}}" required class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label>Recipe Description</label>
+            <textarea class="form-control" name="recipe_description" required>{{recipe.recipe_description}}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Recipe Image</label>
+            <input type="file" name="recipe_image" value="{{recipe.recipe_image}}" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-update" >Update Recipe</button>
+    </form>
+</div>
+
+{% endblock %}
