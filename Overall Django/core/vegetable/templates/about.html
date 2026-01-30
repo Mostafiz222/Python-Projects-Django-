@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block start %}
+
+<style>
+    body, .container {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+    }
+
+    .about-card {
+        background-color: #1e293b !important;
+        border-radius: 12px !important;
+        padding: 2rem !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+        border: 1px solid #334155 !important;
+        margin-bottom: 2rem;
+    }
+
+    h1, h2, h3 {
+        color: #f8fafc;
+    }
+
+    p {
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .btn-accent {
+        background-color: #14b8a6 !important;
+        border: none !important;
+        color: white !important;
+        padding: 10px 20px !important;
+        border-radius: 8px !important;
+        transition: 0.2s;
+    }
+
+    .btn-accent:hover {
+        background-color: #0d9488 !important;
+    }
+
+    .team-member {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .team-member img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #14b8a6;
+        margin-bottom: 1rem;
+    }
+
+    .team-member h5 {
+        color: #e2e8f0;
+        margin-bottom: 0.3rem;
+    }
+
+    .team-member p {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+</style>
+
+<div class="container py-5">
+
+    <!-- App Description -->
+    <div class="about-card">
+        <h1 class="mb-3">About RecipeApp</h1>
+        <p>
+            RecipeApp is a modern web application designed to help users manage, search, and explore delicious recipes
+            with ease. Add your favorite recipes, update them anytime, and browse through a curated list of meals.
+            Our platform focuses on simplicity, usability, and performance.
+        </p>
+        <p>
+            Built with Django and Bootstrap, RecipeApp ensures a responsive, dark-themed experience that is easy on
+            the eyes while providing all the functionalities a modern recipe management app needs.
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="about-card">
+        <h2 class="mb-3">Features</h2>
+        <ul>
+            <li>Add new recipes with images and descriptions</li>
+            <li>Update existing recipes with ease</li>
+            <li>Search recipes quickly using the built-in search</li>
+            <li>Dark mode interface for comfortable viewing</li>
+            <li>Responsive design for desktops, tablets, and mobile devices</li>
+        </ul>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="about-card text-center">
+        <h3>Get Started Today!</h3>
+        <p>Add, search, and explore recipes effortlessly with RecipeApp.</p>
+        <a href="/recipe/" class="btn btn-accent">Go to Home</a>
+    </div>
+
+</div>
+
+{% endblock %}

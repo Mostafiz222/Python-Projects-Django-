@@ -1,0 +1,112 @@
+ {% extends "base.html" %} 
+{% block start %}
+
+<style>
+    /* 1. FORCE THE ENTIRE PAGE TO BLACK */
+    body, .container-fluid, .container {
+        background-color: #000000 !important;
+    }
+
+    /* 2. THE OUTER WRAPPER */
+    .marks-wrapper {
+        background-color: #000000 !important;
+        padding: 40px 10px;
+    }
+
+    /* 3. THE CARD CONTAINER */
+    .marks-card {
+        background-color: #0a0a0a !important; /* Slightly lighter than pure black */
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #1a1a1a;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 1);
+    }
+
+    /* 4. STATS SECTION */
+    .marks-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        color: #666; /* Muted gray */
+    }
+
+    .marks-stats span {
+        color: #38bdf8; /* Blue accent */
+        font-weight: bold;
+        display: block;
+    }
+
+    /* 5. THE TABLE & CELLS (CRITICAL FIX) */
+    .marks-table {
+        background-color: transparent !important;
+        color: #a0a0a0 !important; /* Soft gray text */
+        border: none !important;
+    }
+
+    /* This targets Bootstrap's specific cell styling */
+    .marks-table th, 
+    .marks-table td {
+        background-color: transparent !important; /* Forces background to disappear */
+        color: #a0a0a0 !important;
+        border-bottom: 1px solid #1a1a1a !important;
+        padding: 15px !important;
+    }
+
+    /* Remove the white line at the top of the table */
+    .table > :not(caption) > * > * {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .subject-name {
+        color: #38bdf8 !important;
+    }
+
+    /* Hover effect without using white */
+    .marks-table tbody tr:hover td {
+        background-color: #111111 !important;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="col-lg-5 mx-auto">
+        <div class="marks-wrapper">
+            <div class="marks-card">
+
+                <!-- STATS -->
+                <div class="marks-stats">
+                    <div>TOTAL <span>{{ total_marks.total_marks }}</span></div>
+                    <div class="text-end">RANK <span>#{{ cur_rank }}</span></div>
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-responsive">
+                    <table class="table marks-table text-center align-middle mb-0">
+                        <tbody>
+                            {% for marks in queryset %}
+                            <tr>
+                                <th scope="row" style="border-right: 1px solid #1a1a1a !important;">
+                                    {{ forloop.counter }}
+                                </th>
+                                <td class="subject-name fw-semibold">
+                                    {{ marks.subject.subject_name }}
+                                </td>
+                                <td style="color: #fbbf24;">{{ marks.marks }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="py-4" style="color: #444 !important;">
+                                    No marks available
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

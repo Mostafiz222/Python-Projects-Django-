@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block start %}
+
+<style>
+    /* FORCE GLOBAL BLACK (Zero White) */
+    body, .container-fluid, .container {
+        background-color: #000000 !important;
+    }
+
+    .neo-wrapper {
+        background: #000000;
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #111;
+    }
+
+    /* CARDS */
+    .neo-card {
+        background: #080808 !important; /* Extremely dark grey */
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #1a1a1a;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    /* INPUTS - Removed white borders/backgrounds */
+    .neo-input {
+        background: #000000 !important;
+        border: 1px solid #333 !important;
+        color: #34d399 !important; /* Green text for visibility */
+        box-shadow: none !important;
+    }
+
+    .neo-input::placeholder {
+        color: #444 !important;
+    }
+
+    .neo-title {
+        color: #059669; /* Emerald green */
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 800;
+    }
+
+    /* TABLE - Critical Fix for White Cells */
+    .neo-table {
+        background-color: transparent !important;
+        border-collapse: separate !important;
+        border-spacing: 0;
+    }
+
+    /* Target every cell specifically to kill white background */
+    .neo-table thead th,
+    .neo-table tbody td,
+    .neo-table tbody th {
+        background-color: transparent !important; 
+        color: #888 !important;
+        border-bottom: 1px solid #111 !important;
+        border-top: none !important;
+        box-shadow: none !important;
+        padding: 16px 12px !important;
+    }
+
+    .neo-table thead th {
+        color: #444 !important;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        background: #050505 !important;
+    }
+
+    .neo-table tbody tr:hover td {
+        background: #0f172a !important; /* Very subtle blue highlight */
+        color: #34d399 !important;
+        transition: 0.2s;
+    }
+
+    .neo-link {
+        color: #34d399;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .neo-link:hover {
+        color: #6ee7b7;
+        text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+    }
+
+    /* PAGINATION */
+    .neo-page {
+        background: #000000 !important;
+        border: 1px solid #222 !important;
+        color: #34d399 !important;
+    }
+
+    .neo-page:hover {
+        background: #34d399 !important;
+        color: #000000 !important;
+    }
+
+    .page-item.active .page-link {
+        background-color: #059669 !important;
+        border-color: #059669 !important;
+        color: #000 !important;
+    }
+
+    /* SEARCH BUTTON */
+    .btn-search {
+        background: #059669;
+        border: none;
+        color: #000;
+        font-weight: bold;
+    }
+    
+    .btn-search:hover {
+        background: #34d399;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="neo-wrapper">
+
+        <!-- Search Section -->
+        <div class="neo-card mb-4">
+            <form method="GET">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-9">
+                        <input
+                            class="form-control neo-input"
+                            name="search"
+                            placeholder="Type student name..."
+                            value="{{ request.GET.search }}"
+                        >
+                    </div>
+                    <div class="col-md-3 d-grid">
+                        <button type="submit" class="btn btn-search">
+                            SEARCH
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Table Section -->
+        <div class="neo-card">
+            <h4 class="neo-title mb-4">Student Database</h4>
+
+            <div class="table-responsive">
+                <table class="table neo-table text-center align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student ID</th>
+                            <th>Full Name</th>
+                            <th>Email Address</th>
+                            <th>Age</th>
+                            <th>Dept</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for Student in queryset %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <a href="{% url 'seemarks' Student.StudentID %}" class="neo-link fw-bold">
+                                    {{ Student.StudentID }}
+                                </a>
+                            </td>
+                            <td style="color: #bbb;">{{ Student.Student_name }}</td>
+                            <td style="color: #666;">{{ Student.Student_email }}</td>
+                            <td>{{ Student.Student_age }}</td>
+                            <td><span class="badge" style="border: 1px solid #333; color: #888;">{{ Student.department }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="py-5" style="color: #333 !important;">
+                                No records found in the database.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if queryset.has_other_pages %}
+            <div class="d-flex justify-content-center mt-5">
+                <ul class="pagination mb-0">
+                    {% if queryset.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link neo-page" href="?page={{ queryset.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Prev</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">
+                            {{ queryset.number }}
+                        </span>
+                    </li>
+
+                    {% if queryset.has_next %}
+                        <li class="page-item">
+                            <a class="page-link neo-page" href="?page={{ queryset.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
