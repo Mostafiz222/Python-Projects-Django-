@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Coin Counter AI
+</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>
+🪙 Coin Counter AI
+</h1>
+
+
+<p class="subtitle">
+Computer Vision based automatic coin detection system
+</p>
+
+
+
+<div class="upload-box">
+
+
+<form
+action="/upload"
+method="post"
+enctype="multipart/form-data"
+>
+
+
+<input
+type="file"
+name="file"
+required
+>
+
+
+<br>
+
+
+<button type="submit">
+Analyze Image
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+{% if image_path %}
+
+
+<div class="result">
+
+
+<h2>
+Detection Result
+</h2>
+
+
+<img
+src="{{ result_image }}"
+>
+
+
+<div class="stats">
+
+
+<div class="card">
+
+<h3>
+Total Coins
+</h3>
+
+<p>
+{{ coin_count }}
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+{% endif %}
+
+
+
+</div>
+
+
+</body>
+
+</html>
